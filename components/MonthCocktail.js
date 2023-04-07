@@ -9,53 +9,80 @@ import {
 } from "react-native";
 
 export default function MonthCocktail() {
-    const [cocktail, setCocktail] = useState(null);
+
+    const [cocktails, setCocktails] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
+
+    const apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
 
     useEffect(() => {
-        fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
+        fetch(apiUrl)
             .then((response) => response.json())
-            .then((json) => setCocktail(json.drinks[0]))
-            .catch((error) => console.error(error));
+            .then((json) => {
+                setCocktails(json.drinks[0]);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }, []);
 
     const handleNewCocktail = () => {
-        setCocktail(null);
-        fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
-            .then((response) => response.json())
-            .then((json) => setCocktail(json.drinks[0]))
-            .catch((error) => console.error(error));
+        fetch(apiUrl)
+        .then((response) => response.json())
+        .then((json) => {
+            setCocktails(json.drinks[0]);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
     };
 
-    if (!cocktail) {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.loadingText}>Chargement...</Text>
-            </View>
-        );
-    }
+    useEffect(() => {
+        if (cocktails && cocktails.strDrink) {
+            const apiUrlingredients = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${cocktails.strDrink}`;
 
-    const {
-        strDrink,
-        strDrinkThumb,
-        strInstructions,
-        strIngredient1,
-        strIngredient2,
-        strIngredient3,
-    } = cocktail;
+            fetch(apiUrlingredients)
+                .then(response => response.json())
+                .then(json => {
+                    setIngredients(getIngredients(json.drinks[0]));
+                })
+                .catch(error => console.error(error));
+        }
+    }, [cocktails]);
+
+    const getIngredients = (drink) => {
+        const ingredients = [];
+        for (let i = 1; drink[`strIngredient${i}`] && i <= 15; i++) {
+            const ingredientName = drink[`strIngredient${i}`];
+            const ingredientMeasurement = drink[`strMeasure${i}`];
+            const ingredientImage = `https://www.thecocktaildb.com/images/ingredients/${encodeURIComponent(ingredientName)}-Small.png`;
+            if (ingredientMeasurement == null) {
+                ingredients.push({ name: ingredientName, measurement: "at your convenience", image: ingredientImage });
+            } else {
+                ingredients.push({ name: ingredientName, measurement: ingredientMeasurement, image: ingredientImage });
+            }
+        }
+
+        console.log(ingredients)
+        return ingredients;
+    };
 
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.titleRandom}>Randomly Cocktail</Text>
-            <Image source={{ uri: strDrinkThumb }} style={styles.image} />
-            <Text style={styles.title}>{strDrink}</Text>
+            <Image source={{ uri: cocktails.strDrinkThumb }} style={styles.image} />
+            <Text style={styles.title}>{cocktails.strDrink}</Text>
             <View style={styles.ingredientsContainer}>
             <Text style={styles.titleS}>Ingredients : </Text>
-                <Text style={styles.ingredientText}>{strIngredient1}</Text>
-                <Text style={styles.ingredientText}>{strIngredient2}</Text>
-                <Text style={styles.ingredientText}>{strIngredient3}</Text>
+            {ingredients.map((ingredient, index) => (
+                    <>
+                    <Image source={{ uri: ingredient.image }} style={styles.ingredientImage}/>
+                    <Text style={styles.ingredientText}>{ingredient.name} : {ingredient.measurement}</Text>
+                    </>
+                ))}
             </View>
             <Text style={styles.titleS}>Preparation : </Text>
-                <Text style={styles.instructions}>{strInstructions}</Text>
+                <Text style={styles.instructions}>{cocktails.strInstructions}</Text>
             <TouchableOpacity style={styles.button} onPress={handleNewCocktail}>
                 <Text style={styles.buttonText}>Nouveau cocktail</Text>
             </TouchableOpacity>
@@ -74,6 +101,12 @@ const styles = StyleSheet.create({
         color: "white",
         margin: 10,
         textAlign: 'center',
+    },
+    ingredientImage:{
+        width:90,
+        height:90,
+        alignSelf:"center",
+        margin:10
     },
     instructions: {
         fontSize: 16,
@@ -113,7 +146,7 @@ const styles = StyleSheet.create({
         textDecorationLine: "underline"
     },
     button: {
-        backgroundColor: '#f0c869',
+        backgroundColor: '#ffbf00',
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 10,

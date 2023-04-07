@@ -25,21 +25,22 @@ export default function Details() {
         fetch(apiUrl)
             .then(response => response.json())
             .then(json => {
-                setIngredients(getIngredients(json.drinks[0])); // Ajouter tous les ingrédients à l'état
+                setIngredients(getIngredients(json.drinks[0]));
             })
             .catch(error => console.error(error));
     }, []);
 
     const getIngredients = (drink) => {
         const ingredients = [];
-        for (let i = 1; i <= 15; i++) {
+        for (let i = 1; i <= 25; i++) {
             const ingredientName = drink['strIngredient' + i];
             if (ingredientName != null) {
                 const ingredientMeasurement = drink['strMeasure' + i];
+                const ingredientImage = `https://www.thecocktaildb.com/images/ingredients/${ingredientName}-Small.png`;
                 if (ingredientMeasurement == null) {
-                    ingredients.push({ name: ingredientName, measurement: "at your convenience" });
+                    ingredients.push({ name: ingredientName, measurement: "at your convenience", image: ingredientImage });
                 } else {
-                    ingredients.push({ name: ingredientName, measurement: ingredientMeasurement });
+                    ingredients.push({ name: ingredientName, measurement: ingredientMeasurement, image: ingredientImage });
                 }
             }
         }
@@ -58,11 +59,14 @@ export default function Details() {
                     <Ionicons style={styles.icon} name='arrow-back-circle' size={50} color="#f1f1f1" />
                 </TouchableOpacity>
             </View>
-                <Image source={{ uri: strDrinkThumb }} style={styles.image} />
                 <Text style={styles.title}>{strDrink}</Text>
+                <Image source={{ uri: strDrinkThumb }} style={styles.image} />
                 <Text style={styles.titleS}>Ingredients : </Text>
                 {ingredients.map((ingredient, index) => (
-                    <Text style={styles.ingredientText} key={index}>{ingredient.name}: {ingredient.measurement}</Text>
+                    <>
+                    <Image source={{ uri: ingredient.image }} style={styles.ingredientImage}/>
+                    <Text style={styles.ingredientText}>{ingredient.name} : {ingredient.measurement}</Text>
+                    </>
                 ))}
                 <Text style={styles.titleS}>Preparation : </Text>
                 <Text style={styles.instructions}>{strInstructions}</Text>
@@ -84,6 +88,12 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
     },
+    ingredientImage:{
+        width:90,
+        height:90,
+        alignSelf:"center",
+        margin:10
+    },
     ingredientText: {
         fontSize: 16,
         marginBottom: 5,
@@ -98,7 +108,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     title: {
-        fontSize: 24,
+        fontSize: 40,
         fontWeight: 'bold',
         margin: 10,
         textAlign: 'center',
@@ -117,5 +127,6 @@ const styles = StyleSheet.create({
         margin: 10,
         textAlign: 'center',
         color: "white",
+        paddingBottom: 60
     },
 });

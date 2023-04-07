@@ -54,9 +54,11 @@ export default function Details() {
     return (
         <>
             <ScrollView style={styles.container}>
+
+            <View style={styles.cardContainer}>
             <View style={styles.iconContainer}>
                 <TouchableOpacity onPress={handleBack}>
-                    <Ionicons style={styles.icon} name='arrow-back-circle' size={50} color="#f1f1f1" />
+                    <Ionicons style={styles.icon} name='arrow-back-circle' size={55} color="black" />
                 </TouchableOpacity>
             </View>
                 <Text style={styles.title}>{strDrink}</Text>
@@ -70,6 +72,7 @@ export default function Details() {
                 ))}
                 <Text style={styles.titleS}>Preparation : </Text>
                 <Text style={styles.instructions}>{strInstructions}</Text>
+                </View>
             </ScrollView>
         </>
     );
@@ -78,11 +81,26 @@ export default function Details() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1D1C1D',
+        backgroundColor:"white",
+    },
+    cardContainer:{
+        backgroundColor: "#f1f1f1",
+        borderRadius: 10,
+        padding: 10,
+        marginLeft: 20,
+        marginTop:50,
+        marginRight: 20,
+        shadowColor: "#000000",
+        shadowOpacity: 0.2,
+        shadowRadius: 1,
+        shadowOffset: {
+            width: 1,
+            height: 1,
+        },
+        elevation: 2,
     },
     iconContainer: {
        padding:10,
-       marginTop: 60,
       },
     ingredientsContainer: {
         flex: 1,
@@ -97,36 +115,34 @@ const styles = StyleSheet.create({
     ingredientText: {
         fontSize: 16,
         marginBottom: 5,
-        color: "white",
         margin: 10,
         textAlign: 'center',
     },
     image: {
-        width: '100%',
-        height: 300,
+        width: '80%',
+        height: 250,
         resizeMode: 'cover',
         borderRadius: 10,
+        marginBottom: 20,
+        alignSelf:"center",
     },
     title: {
         fontSize: 40,
         fontWeight: 'bold',
         margin: 10,
         textAlign: 'center',
-        color: "white",
     },
     titleS: {
         fontSize: 24,
         fontWeight: 'bold',
         marginVertical: 10,
         textAlign: 'center',
-        color: 'white',
         textDecorationLine: "underline"
     },
     instructions: {
         fontSize: 16,
         margin: 10,
         textAlign: 'center',
-        color: "white",
         paddingBottom: 60
     },
 });

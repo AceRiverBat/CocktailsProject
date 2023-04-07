@@ -17,7 +17,7 @@ const FooterNavBar = ({onPresshome, onPressMonthCocktail}) => {
                 setIsMonthCocktailClicked(false);
                 onPresshome();
             }}>
-            <Ionicons style={[styles.menuItem, isHomeClicked && styles.focusText]} name='home' size={45}/>
+            <Ionicons style={[styles.menuItem, isHomeClicked && styles.focusText]} name='home' size={40}/>
             
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
@@ -25,7 +25,7 @@ const FooterNavBar = ({onPresshome, onPressMonthCocktail}) => {
                 setIsMonthCocktailClicked(true);
                 onPressMonthCocktail();
             }}>
-            <Ionicons style={[styles.menuItem, isMonthCocktailClicked && styles.focusText]} name='cafe' size={45}/>
+            <Ionicons style={[styles.menuItem, isMonthCocktailClicked && styles.focusText]} name='cafe' size={40}/>
         </TouchableOpacity>
         </View>
     )
@@ -33,20 +33,24 @@ const FooterNavBar = ({onPresshome, onPressMonthCocktail}) => {
 
 const styles = StyleSheet.create({
       bodyContainer:{
-        width:'100%',
+        width:'85%',
+        height:60,
+        alignSelf:"center",
           flexDirection: 'row',
           position: 'absolute',
           bottom: 0,
-          backgroundColor: '#f1f1f1',
+          backgroundColor: '#000000',
           justifyContent:"space-around",
           padding: 10,
           paddingBottom:10,
+          borderRadius: '15%',
+          marginBottom:20,
       },
       menuItem: {
           color: 'gray',
       },
       focusText: {
-        color: "#95190C",
+        color: "white",
     },
   });
   export default FooterNavBar;

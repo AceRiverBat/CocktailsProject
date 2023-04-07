@@ -70,8 +70,9 @@ export default function MonthCocktail() {
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.titleRandom}>Randomly Cocktail</Text>
-            <Image source={{ uri: cocktails.strDrinkThumb }} style={styles.image} />
+            <View style={styles.cardContainer}>
             <Text style={styles.title}>{cocktails.strDrink}</Text>
+            <Image source={{ uri: cocktails.strDrinkThumb }} style={styles.image} />
             <View style={styles.ingredientsContainer}>
             <Text style={styles.titleS}>Ingredients : </Text>
             {ingredients.map((ingredient, index) => (
@@ -86,21 +87,35 @@ export default function MonthCocktail() {
             <TouchableOpacity style={styles.button} onPress={handleNewCocktail}>
                 <Text style={styles.buttonText}>Nouveau cocktail</Text>
             </TouchableOpacity>
+            </View>
         </ScrollView>
     );
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1D1C1D',
-        paddingTop: 70,
+        backgroundColor: 'white',
     },
     ingredientText: {
         fontSize: 16,
         marginBottom: 5,
-        color: "white",
         margin: 10,
         textAlign: 'center',
+    },
+    cardContainer:{
+        backgroundColor: "#f1f1f1",
+        borderRadius: 10,
+        padding: 20,
+        marginLeft: 20,
+        marginRight: 20,
+        shadowColor: "#000000",
+        shadowOpacity: 0.2,
+        shadowRadius: 1,
+        shadowOffset: {
+            width: 1,
+            height: 1,
+        },
+        elevation: 2,
     },
     ingredientImage:{
         width:90,
@@ -112,7 +127,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         margin: 10,
         textAlign: 'center',
-        color: "white",
     },
     image: {
         width: '80%',
@@ -122,41 +136,38 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         alignSelf:"center",
     },
-    titleRandom: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        color:"white",
-        marginBottom:30,
-        textDecorationLine: "underline"
-    },
     title: {
         fontSize: 24,
+        fontWeight: "bold",
+        marginBottom: 10,
+        textAlign: "center",
+    },
+    titleRandom: {
+        fontSize: 30,
         fontWeight: 'bold',
-        marginVertical: 10,
-        textAlign: 'center',
-        color: 'white',
+        marginBottom: 30,
+        marginTop: 60,
+        margin: 10,
     },
     titleS: {
         fontSize: 24,
         fontWeight: 'bold',
         marginVertical: 10,
         textAlign: 'center',
-        color: 'white',
         textDecorationLine: "underline"
     },
     button: {
-        backgroundColor: '#ffbf00',
+        backgroundColor: '#000000',
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 20,
         alignSelf:"center",
-        margin:100,
+        marginBottom:90,
     },
     buttonText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: 'white',
+        color:"white"
     },
 });

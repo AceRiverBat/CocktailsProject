@@ -20,20 +20,23 @@ export default function HomeComponent() {
     }, []);
 
     const handleCardPress = (cocktail) => {
-        navigation.navigate('Details', { strDrink: cocktail.strDrink, strDrinkThumb: cocktail.strDrinkThumb, strInstructions: cocktail.strInstructions,});
+        navigation.navigate('Details', { strDrink: cocktail.strDrink, strDrinkThumb: cocktail.strDrinkThumb, strInstructions: cocktail.strInstructions, });
     };
 
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.titleRandom}>Cocktail Recipes :</Text>
-            {cocktails.map((cocktail) => (
-                <TouchableWithoutFeedback key={cocktail.idDrink} onPress={() => handleCardPress(cocktail)}>
-                    <View style={styles.card}>
-                        <Text style={styles.title}>{cocktail.strDrink}</Text>
-                        <Image source={{ uri: cocktail.strDrinkThumb }} style={styles.image} />
-                    </View>
-                </TouchableWithoutFeedback>
-            ))}
+            <View style={styles.cardContainer}>
+                {cocktails.map((cocktail) => (
+                    <TouchableWithoutFeedback key={cocktail.idDrink} onPress={() => handleCardPress(cocktail)}>
+                        <View style={styles.card}>
+                            <Image source={{ uri: cocktail.strDrinkThumb }} style={styles.image} />
+                            <Text style={styles.title}>{cocktail.strDrink}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                ))}
+            </View>
+
         </ScrollView>
     );
 }
@@ -41,7 +44,10 @@ export default function HomeComponent() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1D1C1D',
+    },
+    cardContainer: {
+        flexDirection:'row',
+        flexWrap: 'wrap',
     },
     card: {
         alignSelf: "center",
@@ -62,21 +68,19 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: "bold",
-        marginBottom: 10,
+        marginTop: 10,
         textAlign: "center",
     },
     titleRandom: {
-        fontSize: 40,
+        fontSize: 30,
         fontWeight: 'bold',
-        textAlign: 'center',
-        color:"white",
-        marginBottom:30,
-        marginTop:60,
-        textDecorationLine: "underline"
+        marginBottom: 30,
+        marginTop: 60,
+        margin: 10,
     },
     image: {
-        width: 300,
-        height:200,
+        width: 150,
+        height: 150,
         resizeMode: "cover",
         borderRadius: 10,
     },
